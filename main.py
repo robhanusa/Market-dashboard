@@ -5,7 +5,7 @@ Created on Tue Nov  1 08:33:05 2022
 @author: rkhan
 """
 
-import pandas as pd
+#import pandas as pd
 import matplotlib.pyplot as plt
 from yahoo_fin import stock_info as si
 
@@ -28,10 +28,18 @@ def gen_plot(ticker, label, ax):
     ax.plot(data.index,data['close'], label=label)
     ax.plot(data.index,[live_price for x in data.index], label='Current Price', 
          linestyle='--')
-    ax.legend()
+    ax.tick_params(axis='x', labelsize=8, rotation=45)
+    ax.legend(prop=dict(size=7))
 
 fig, axs = plt.subplots(2,2, sharex = True)
 gen_plot(tickers[0], labels[0], axs[0,0])
 gen_plot(tickers[1], labels[1], axs[0,1])
 gen_plot(tickers[2], labels[2], axs[1,0])
 gen_plot(tickers[3], labels[3], axs[1,1])
+
+def ave_growth(ticker):
+    #average growth rate per year. need to check formula
+    current, data = ETF_info(ticker)
+    start = data.open[0]
+    years = (data.index[-1] - data.index[0]).days/365.25
+    return (current-start)/years/start
