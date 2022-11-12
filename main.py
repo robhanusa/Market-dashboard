@@ -5,7 +5,6 @@ Created on Tue Nov  1 08:33:05 2022
 @author: rkhan
 """
 
-#import pandas as pd
 import matplotlib.pyplot as plt
 from yahoo_fin import stock_info as si
 
@@ -38,8 +37,9 @@ gen_plot(tickers[2], labels[2], axs[1,0])
 gen_plot(tickers[3], labels[3], axs[1,1])
 
 def ave_growth(ticker):
-    #average growth rate per year. need to check formula
+    #average annualized return per year
     current, data = ETF_info(ticker)
     start = data.open[0]
     years = (data.index[-1] - data.index[0]).days/365.25
-    return (current-start)/years/start
+    overall_return = (current-start)/start
+    return (1+overall_return)**(1/years)-1
