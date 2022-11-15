@@ -43,3 +43,23 @@ def ave_growth(ticker):
     years = (data.index[-1] - data.index[0]).days/365.25
     overall_return = (current-start)/start
     return (1+overall_return)**(1/years)-1
+
+def categorize_day(row):
+    if row.close > 1.03*row.open:
+        return 'strong gain'
+    elif row.close > row.open:
+        return 'gain'
+    elif row.close < 0.97*row.open:
+        return 'strong loss'
+    elif row.close < row.open:
+        return 'loss'
+    elif row.close == row.open:
+        return 'unchanged'
+    else:
+        return 'undetermined'
+    
+_, df = ETF_info('VOO')
+
+df['day category'] = df.apply(categorize_day,axis=1)
+
+#create summary statistics
