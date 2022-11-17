@@ -62,4 +62,11 @@ _, df = ETF_info('VOO')
 
 df['day category'] = df.apply(categorize_day,axis=1)
 
-#create summary statistics
+performances = ['strong gain','gain','strong loss','loss','unchanged','undetermined']
+
+#count number of days in each performance category
+performance_count = {}
+for performance in performances:
+    performance_count[performance] = df['day category'][df['day category']==performance].count()
+    
+    
